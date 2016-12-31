@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+.cache/
+
+# virtualenv
+[Bb]in
+[Ii]nclude/
+[Ll]ib/
+[Ll]ib64/
+[Ss]cripts/
+tcl/
+
+# Pip
+pip-selfcheck.json
+
+# Project files
+*.db
+config.ini
+*.log
+
