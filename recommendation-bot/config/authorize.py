@@ -1,7 +1,7 @@
 import praw, webbrowser, os
 from configparser import ConfigParser
 
-if __name__ == '__main__':
+def main():
     botconfig = ConfigParser()
     configfile = 'config/config.ini'
     botconfig.read(configfile)
@@ -25,3 +25,6 @@ if __name__ == '__main__':
     with open(configfile, 'w') as cfile:
         botconfig.write(cfile)
     print('Authorization succeeded for user `{}`!'.format(reddit.user.me()))
+
+if __name__ == '__main__':
+    main()
