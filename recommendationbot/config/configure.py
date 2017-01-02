@@ -69,7 +69,7 @@ def promptConfig(config):
     }
     descriptions['BOT'] = {
         'datalocation': 'Directory of any data files.',
-        'subreddits': 'subreddits to monitor (comma separated).'
+        'subreddits': 'Subreddits to monitor (comma separated).'
     }
     for section in config:
         print(' == Section: {} == '.format(section))
