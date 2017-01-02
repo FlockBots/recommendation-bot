@@ -16,5 +16,6 @@ pip-selfcheck.json
 # Project files
 *.db
 config.ini
+debug.ini
 *.log
 
