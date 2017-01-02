@@ -1,4 +1,4 @@
-import praw, webbrowser, os
+import praw, os
 from configparser import ConfigParser
 from recommendationbot.config import configure
 
@@ -27,8 +27,9 @@ def authorize(cname):
     scopes = ['submit', 'identity', 'read']
     url = reddit.auth.url(scopes, state, 'permanent')
         
-    webbrowser.open(url)
-    print('The browser just opened a window. Please press the `Allow` button on Reddit')
+    # webbrowser.open(url)
+    # print('The browser just opened a window. Please press the `Allow` button on Reddit')
+    print('Please open the following url in your browser and authorize: {}'.format(url))
     print('Then copy the string behind `code=` in the URL bar and paste it below')
     code = input('Authorization code: code=') 
     
