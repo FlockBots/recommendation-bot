@@ -24,11 +24,11 @@ class VisitedDatabase:
         return sqlite3.connect(db_path)
 
     def visit(self, submission):
-        if visited(submission):
+        if self.visited(submission):
             return
         c = self.connection.cursor()
         c.execute('INSERT INTO {} (submission_id) VALUES (?)'.format(VisitedDatabase.TABLE), [submission.fullname])
-        db.commit()
+        self.connection.commit()
 
     def visited(self, submission):
         c = self.connection.cursor()

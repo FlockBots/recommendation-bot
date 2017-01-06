@@ -64,6 +64,8 @@ def run():
         except ConnectionResetError:
             logging.error("Connection Failure. Waiting 5 minutes before retrying.")                  
             time.sleep(300)
+        except praw.exceptions.APIException:
+            logging.exception('PRAW Exception')
         except Exception as e:
             logging.exception('Unexpected error')
             raise e
@@ -96,8 +98,8 @@ class RecommendationBot:
     def monitor_reddit(self):
         subreddit_thread = threading.Thread(target=self.check_subreddits)
         mentions_thread = threading.Thread(target=self.check_mentions)
-        subreddit_thread.run()
         mentions_thread.run()
+        subreddit_thread.run()
         return [subreddit_thread, mentions_thread]
 
     def check_subreddits(self):
@@ -131,9 +133,13 @@ class RecommendationBot:
                 self.reply(subname, submission)
 
     def check_mentions(self):
+        logging.debug("Checking mentions")
         while True:
-            for mention in self.reddit.inbox.mentions:
-                subname = mention.submission.subreddit.display_name
+            for mention in self.reddit.inbox.mentions():
+                if self.db.visited(mention):
+                    continue
+                self.db.visit(mention)
+                subname = mention.subreddit.display_name
                 logging.debug('(Mention) Replying to {author} in {sub}'.format(
                     author=mention.author.name,
                     sub=subname
@@ -143,7 +149,7 @@ class RecommendationBot:
 
     def reply(self, subname, obj):
         try:
-            replyTemplate = replies[subname.lower()]
+            replyTemplate = self.replies[subname.lower()]
         except KeyError:
             if 'all' in self.replies:
                 replyTemplate = replies['all']
