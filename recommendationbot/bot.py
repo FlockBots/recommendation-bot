@@ -92,7 +92,7 @@ class RecommendationBot:
         self.reddit = reddit
         self.config = config
         self.subreddits = get_subreddits(config)
-        self.replies  = data.load_replies(self.subreddits, self.config)
+        self.replies  = data.load_replies(self.subreddits, config['BOT']['DataLocation'])
         self.db = VisitedDatabase(config)
 
     def monitor_reddit(self):
@@ -104,8 +104,9 @@ class RecommendationBot:
 
     def check_subreddits(self):
         assert type(self.subreddits) is list
-        keywords = data.load_keywords(self.config)
-        blacklist = data.load_blacklist(self.config)
+        data_dir = config['BOT']['DataLocation'] 
+        keywords = data.load_keywords(data_dir)
+        blacklist = data.load_blacklist(data_dir)
 
         multireddit = '+'.join(self.subreddits)
         subreddit = self.reddit.subreddit(multireddit)
@@ -119,9 +120,9 @@ class RecommendationBot:
             text  = submission.selftext.lower()
             all_text = '{} {}'.format(title, text)
             
-            contains_blacklist = data.contains(all_text, blacklist) 
+            blacklisted = data.contains(all_text, blacklist) 
             contains_keyword = False
-            if not contains_blacklist:
+            if not blacklisted:
                 contains_keyword = data.contains(all_text, keywords) 
 
             if contains_keyword:
