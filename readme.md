@@ -6,19 +6,22 @@ It does so by comparing the title and text of a submission to a list of keywords
 The keywords and replies are stored in `recommendationbot/data/`. Each reply is stored in `{subreddit}.md` where `{subreddit}` is the name of the subreddit in lowercase. In `all.md` is the reply the bot will send if it replies in any other subreddit.
 
 ## Installation
-The bot is built on Python 3 and depends on a few external modules. These modules can be installed using `pip install -R requirements.txt`.
+The bot is built on Python 3 and depends on a few external modules. These modules can be installed using `pip install -r requirements.txt`.
 The configuration of the bot is inside `recommendationbot/config`. Any `.ini` file will be recognised as a potential configuration. In case of multiple configurations, the script will ask which one to use at start-up.
 If a configuration is not completed (i.e. some of the required keys are empty), the script will guide the user through the configuration steps. But it is also possible to copy `template.ini` to a new file and fill it in manually.
 
 A few important configuration keys are the following:
 
-* clientid
+* **clientid**:
 The client id is a unique identifier provided by Reddit. It can be found on https://www.reddit.com/prefs/apps/ > developed applications. Then under the title of the application is a string with random characters. That is the client id.
-* clientsecret
+
+* **clientsecret**:
 The client secret is a similar identifier and found in the same place. When you edit the developed application Reddit, it shows the value as the first item (**secret**).
-* redirecturi
+
+* **redirecturi**:
 This is the URI where Reddit redirects the user to after authentication. The only important thing to know is that this should be the same as filled in in the Reddit preferences (under apps > developed applications).
-* refreshtoken
+
+* **refreshtoken**:
 This a token received from the Reddit server after authentication. This should be left empty as it is filled in automatically by the script.
 
 ## Improvements / To do

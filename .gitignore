@@ -7,6 +7,7 @@ __pycache__/
 [Ii]nclude/
 [Ll]ib/
 [Ll]ib64/
+[Ll]ocal/
 [Ss]cripts/
 tcl/
 
@@ -17,5 +18,6 @@ pip-selfcheck.json
 *.db
 config.ini
 debug.ini
+production.ini
 *.log
 
