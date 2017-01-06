@@ -79,8 +79,10 @@ def selftest():
     bot = RecommendationBot(reddit, config)
     subreddits = get_subreddits(config)
     print('+ Subreddits: {}'.format(', '.join(subreddits)))
-    replies = bot.load_replies(subreddits)
-    keywords = bot.load_keywords()
+    data_dir = config['BOT']['DataLocation']
+    replies = data.load_replies(subreddits, data_dir)
+    keywords = data.load_keywords(data_dir)
+    blacklist = data.load_blacklist(data_dir)
     print('+ Replies and keywords located in "{}"'.format(config['BOT']['DataLocation']))
     print("! Self test completed")
 
