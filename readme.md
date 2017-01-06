@@ -23,8 +23,3 @@ This is the URI where Reddit redirects the user to after authentication. The onl
 
 * **refreshtoken**:
 This a token received from the Reddit server after authentication. This should be left empty as it is filled in automatically by the script.
-
-## Improvements / To do
-* Move database operations to separate file
-* Send reply on 'paging'.
-* Send general reply if not from any of the monitored subs.
