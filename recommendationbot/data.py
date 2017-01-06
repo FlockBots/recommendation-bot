@@ -7,6 +7,8 @@ def load_replies(subreddits, config, extension='.md'):
         logging.warn('Bot cannot reply outside configurated subreddits without "{}"'
                 .format('all' + extension)
         )
+    else:
+        subreddits.append('all')
     files = map(str.lower, subreddits)
     replies = {}
     for name in files:
