@@ -5,19 +5,8 @@ import logging
 import time
 import requests
 from recommendationbot.config import authorize
-
-def db_create(path):
-    db = sqlite3.connect(path)
-    c = db.cursor()
-    c.execute('CREATE TABLE visited_submissions (submission_id text)')
-    db.commit()
-    db.close()
-
-def db_connect(config):
-    db_path = os.path.join(config['BOT']['DataLocation'], 'visited.db')
-    if not os.path.exists(db_path):
-        db_create(db_path)
-    return sqlite3.connect(db_path)
+from recommendationbot.database import VisitedDatabase
+from recommendationbot import data
 
 def set_logging(config):
     logging.basicConfig(
@@ -99,65 +88,45 @@ def selftest():
 def get_subreddits(config):
     return [s.strip() for s in config['BOT']['Subreddits'].split(',')]
 
-def visit(submission, db):
-    if visited(submission, db):
-        return
-    c = db.cursor()
-    c.execute('INSERT INTO visited_submissions (submission_id) VALUES (?)', [submission.fullname])
-    db.commit()
-
-def visited(submission, db):
-    c = db.cursor()
-    c.execute('SELECT * FROM visited_submissions WHERE submission_id = ?', [submission.fullname])
-    return c.fetchone()
-
 class RecommendationBot:
-    def __init__(self, reddit, config, db):
+    def __init__(self, reddit, config):
         self.reddit = reddit
         self.config = config
-        self.db = db
+        self.db = VisitedDatabase(config)
 
     def check_subreddits(self, subreddits):
         assert type(subreddits) is list
+        replies  = data.load_replies(subreddits, self.config)
+        keywords = data.load_keywords(self.config)
+        blacklist = data.load_blacklist(self.config)
+
         multireddit = '+'.join(subreddits)
         subreddit = self.reddit.subreddit(multireddit)
-        replies  = self.load_replies(subreddits)
-        keywords = self.load_keywords()
+
         for submission in subreddit.stream.submissions():
-            if visited(submission, self.db): 
+            if self.db.visited(submission): 
                 continue
-            visit(submission, self.db)
+            self.db.visit(submission)
+
             title = submission.title.lower()
             text  = submission.selftext.lower()
-            logging.debug('Analyzing submission {}'.format(submission.url))
-            containsKeyword = False
-            for keyword in keywords:
-                keyword = keyword.strip().lower()
-                if keyword in title or keyword in text:
-                    containsKeyword = True
-                    break
-            if containsKeyword:
+            all_text = '{} {}'.format(title, text)
+            
+            contains_blacklist = data.contains(all_text, blacklist) 
+            contains_keyword = False
+            if not contains_blacklist:
+                contains_keyword = data.contains(all_text, keywords) 
+
+            if contains_keyword:
                 subname = submission.subreddit.display_name
                 logging.debug('Replying to {author} in {sub}'.format(
     		    author=submission.author.name,
     		    sub=subname
     	        ))
-                replyTemplate = replies[subname.lower()]
+                try:
+                    replyTemplate = replies[subname.lower()]
+                except KeyError:
+                    if 'all' in replies:
+                        replyTemplate = replies['all']
                 submission.reply(replyTemplate)
-
-    def load_replies(self, subreddits, extension='.md'):
-        files = map(str.lower, subreddits)
-        replies = {}
-        for name in files:
-            path = os.path.join(self.config['BOT']['DataLocation'], name + extension)
-            with open(path, 'r') as replyFile:
-                replies[name] = replyFile.read()
-        return replies
-
-    def load_keywords(self, filename='keywords.txt'):
-        path = os.path.join(self.config['BOT']['DataLocation'], filename)
-        keywords = []
-        with open(path, 'r') as keywordFile:
-            keywords = keywordFile.readlines()
-        return keywords
 
