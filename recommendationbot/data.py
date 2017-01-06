@@ -4,6 +4,7 @@ import logging
 def load_replies(subreddits, data_dir, extension='.md'):
     path = os.path.join(data_dir, 'all' + extension)
     if not os.path.exists(path):
+        print('Warning: Bot cannot reply outside configurated subreddits without "all{}"'.format(extension))
         logging.warn('Bot cannot reply outside configurated subreddits without "{}"'
                 .format('all' + extension)
         )
