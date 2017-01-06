@@ -81,9 +81,14 @@ def selftest():
     print('+ Subreddits: {}'.format(', '.join(subreddits)))
     data_dir = config['BOT']['DataLocation']
     replies = data.load_replies(subreddits, data_dir)
-    keywords = data.load_keywords(data_dir)
-    blacklist = data.load_blacklist(data_dir)
-    print('+ Replies and keywords located in "{}"'.format(config['BOT']['DataLocation']))
+    keywords = data.load_list(data_dir, 'keywords.txt')
+    blacklist = data.load_list(data_dir, 'blacklist.txt')
+    print('keywords: {}, blacklisted: {}'.format(
+        len(replies),
+        len(keywords),
+        len(blacklist)
+    ))
+    print('+ Replies, keywords and blacklist located in "{}"'.format(config['BOT']['DataLocation']))
     print("! Self test completed")
 
 def get_subreddits(config):
@@ -107,8 +112,8 @@ class RecommendationBot:
     def check_subreddits(self):
         assert type(self.subreddits) is list
         data_dir = config['BOT']['DataLocation'] 
-        keywords = data.load_keywords(data_dir)
-        blacklist = data.load_blacklist(data_dir)
+        keywords = data.load_list(data_dir, 'keywords.txt')
+        blacklist = data.load_list(data_dir, 'blacklist.txt')
 
         multireddit = '+'.join(self.subreddits)
         subreddit = self.reddit.subreddit(multireddit)

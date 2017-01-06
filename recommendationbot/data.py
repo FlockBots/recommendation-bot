@@ -18,18 +18,11 @@ def load_replies(subreddits, data_dir, extension='.md'):
             replies[name] = replyFile.read()
     return replies
 
-def load_keywords(data_dir, filename='keywords.txt'):
+def load_list(data_dir, filename):
     path = os.path.join(data_dir, filename)
     keywords = []
     with open(path, 'r') as keywordFile:
-        keywords = keywordFile.readlines()
-    return keywords
-
-def load_blacklist(data_dir, filename='blacklist.txt'):
-    path = os.path.join(data_dir, filename)
-    keywords = []
-    with open(path, 'r') as keywordFile:
-        keywords = keywordFile.readlines()
+        keywords = keywordFile.read().split()
     return keywords
 
 def contains(text, words):
