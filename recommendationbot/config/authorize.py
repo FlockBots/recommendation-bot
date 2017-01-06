@@ -24,7 +24,7 @@ def authorize(cname):
         redirect_uri=redditConfig['RedirectUri']
     )
     state = 'AnyKindOfGibberishWillDo'
-    scopes = ['submit', 'identity', 'read', 'messages']
+    scopes = ['submit', 'identity', 'read', 'privatemessages']
     url = reddit.auth.url(scopes, state, 'permanent')
         
     # webbrowser.open(url)
