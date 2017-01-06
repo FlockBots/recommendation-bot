@@ -27,10 +27,10 @@ class VisitedDatabase:
         if visited(submission):
             return
         c = self.connection.cursor()
-        c.execute('INSERT INTO ? (submission_id) VALUES (?)', [TABLE, submission.fullname])
+        c.execute('INSERT INTO {} (submission_id) VALUES (?)'.format(VisitedDatabase.TABLE), [submission.fullname])
         db.commit()
 
-    def visited(self, submission, db):
+    def visited(self, submission):
         c = self.connection.cursor()
-        c.execute('SELECT * FROM ? WHERE submission_id = ?', [TABLE, submission.fullname])
+        c.execute('SELECT * FROM {} WHERE submission_id = ?'.format(VisitedDatabase.TABLE), [submission.fullname])
         return c.fetchone()
