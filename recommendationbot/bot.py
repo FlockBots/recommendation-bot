@@ -134,7 +134,6 @@ class RecommendationBot:
                 self.reply(subname, submission)
 
     def check_mentions(self):
-        logging.debug("Checking mentions")
         while True:
             for mention in self.reddit.inbox.mentions():
                 if self.db.visited(mention):
@@ -153,7 +152,8 @@ class RecommendationBot:
             replyTemplate = self.replies[subname.lower()]
         except KeyError:
             if 'all' in self.replies:
-                replyTemplate = replies['all']
+                logging.debug('Using general reply template for "/r/{}"'.format(subname))
+                replyTemplate = self.replies['all']
             else:
                 logging.warn('No reply template provided for subreddit "{}"'.format(subname))
                 return
