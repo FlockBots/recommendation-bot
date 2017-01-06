@@ -1,4 +1,4 @@
-*Hi there, I'm a bot. You've included some things in your post that lead me to believe you're looking for a recommendation. If not, sorry for intruding. I'll try to make sure this doesn't happen again in the future.*
+*Hi there, I'm a bot. You've included some things in your post that lead me to believe you're looking for a bottle recommendation. If not, sorry for intruding. I'll try to make sure this doesn't happen again in the future.*
 
 ***
 
@@ -24,9 +24,9 @@ If you've still got questions after reading the guides, please try to be as spec
 
 &nbsp;
 
-**A Few More Notes**    
+**A Few More General Tips**    
 As far as exploring new whiskies, we generally advise novices to sample as much as possible by going to a bar, splitting bottles with friends, attending festivals/tastings or getting minis to ensure you buy bottles you enjoy. Most people need to try 15-25 whiskies to understand their preferences and tastes. It may make more sense for you to buy smaller portions of different whiskies rather than full bottles.
 
-You're going to get the most flavor/aroma drinking it neat in a tulip-shaped glass like a Glencairn but most new drinkers prefer to water down their whisky a bit. If you do end up adding water, I'd recommend adding just enough to make it tolerable and take small sips. But really there's no right or wrong way to drink so as long as you're enjoying it, you're doing it right.
+You're going to get the most flavor/aroma drinking it neat in a tulip-shaped glass like a Glencairn but most new drinkers prefer to water down their whisky a bit. If you do end up adding water, we usually recommend adding just enough to make it tolerable and take small sips. But really there's no right or wrong way to drink so as long as you're enjoying it, you're doing it right.
 
-Searching /r/whiskey may yield some additional insights as well. Cheers!
+Searching /r/whiskey may yield some additional insights as well. Thanks for reading, cheers!

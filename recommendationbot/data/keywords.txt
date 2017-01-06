@@ -11,7 +11,6 @@ good gift
 gift to
 gift for
 for a gift
-as a gift
 for a present
 as a present
 father's day
@@ -19,7 +18,6 @@ fathers day
 graduation
 promotion
 new job
-some favorites
 beginner
 beginners
 beginner's
@@ -71,7 +69,6 @@ best brand
 best brands
 your favorite bottle
 your favorites
-favorite bottles
 favorite brand
 favorite brands
 your favorite whiskey
@@ -106,10 +103,6 @@ good brands
 branch out
 go from here
 want to expand
-something new
-something different
-something similar
-try something
 limited experience
 which to drink
 which to buy
@@ -122,3 +115,16 @@ buy next
 looking to add
 someone who likes
 just started drinking
+next purchase
+next purchases
+next bottles
+next bottle
+new to scotch
+new to bourbon
+new to whiskey
+new to whisky
+should I add
+looking to pick
+looking to choose
+recommended
+suggested
