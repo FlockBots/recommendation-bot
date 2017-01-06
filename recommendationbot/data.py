@@ -38,3 +38,4 @@ def contains(text, words):
         if word in text:
             logging.debug('Text contains: {}'.format(word))
             return True
+    return False
