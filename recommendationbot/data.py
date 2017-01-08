@@ -2,6 +2,7 @@ import os
 import logging
 
 def load_replies(subreddits, data_dir, extension='.md'):
+    reply_subs = [sub for sub in subreddits]
     path = os.path.join(data_dir, 'all' + extension)
     if not os.path.exists(path):
         print('Warning: Bot cannot reply outside configurated subreddits without "all{}"'.format(extension))
@@ -9,8 +10,8 @@ def load_replies(subreddits, data_dir, extension='.md'):
                 .format('all' + extension)
         )
     else:
-        subreddits.append('all')
-    files = map(str.lower, subreddits)
+        reply_subs.append('all')
+    files = map(str.lower, reply_subs)
     replies = {}
     for name in files:
         path = os.path.join(data_dir, name + extension)
@@ -25,11 +26,11 @@ def load_list(data_dir, filename):
         keywords = keywordFile.read().split()
     return keywords
 
-def contains(text, words):
+def contains(text, words, name):
     text = text.lower()
     for word in words:
         word = word.strip().lower()
         if word in text:
-            logging.debug('Text contains: {}'.format(word))
+            logging.debug('Text contains: "{}" from {}'.format(word, name))
             return True
     return False

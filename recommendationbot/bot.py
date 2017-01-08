@@ -100,37 +100,39 @@ class RecommendationBot:
         self.config = config
         self.subreddits = get_subreddits(config)
         self.replies  = data.load_replies(self.subreddits, config['BOT']['DataLocation'])
-        self.db = VisitedDatabase(config)
 
     def monitor_reddit(self):
         subreddit_thread = threading.Thread(target=self.check_subreddits)
         mentions_thread = threading.Thread(target=self.check_mentions)
-        mentions_thread.run()
-        subreddit_thread.run()
-        return [subreddit_thread, mentions_thread]
+        mentions_thread.start()
+        subreddit_thread.start()
+        mentions_thread.join()
+        subreddit_thread.join()
 
     def check_subreddits(self):
-        assert type(self.subreddits) is list
-        data_dir = config['BOT']['DataLocation'] 
+        logging.debug('Checking subreddits...')
+        db = VisitedDatabase(self.config)
+        
+        data_dir = self.config['BOT']['DataLocation'] 
         keywords = data.load_list(data_dir, 'keywords.txt')
         blacklist = data.load_list(data_dir, 'blacklist.txt')
 
         multireddit = '+'.join(self.subreddits)
         subreddit = self.reddit.subreddit(multireddit)
-
+        
         for submission in subreddit.stream.submissions():
-            if self.db.visited(submission): 
+            if db.visited(submission): 
                 continue
-            self.db.visit(submission)
+            db.visit(submission)
 
             title = submission.title.lower()
             text  = submission.selftext.lower()
             all_text = '{} {}'.format(title, text)
             
-            blacklisted = data.contains(all_text, blacklist) 
+            blacklisted = data.contains(all_text, blacklist, 'blacklist') 
             contains_keyword = False
             if not blacklisted:
-                contains_keyword = data.contains(all_text, keywords) 
+                contains_keyword = data.contains(all_text, keywords, 'keywords') 
 
             if contains_keyword:
                 subname = submission.subreddit.display_name
@@ -141,11 +143,13 @@ class RecommendationBot:
                 self.reply(subname, submission)
 
     def check_mentions(self):
+        logging.debug('Checking mentions...')
+        db = VisitedDatabase(self.config)
         while True:
             for mention in self.reddit.inbox.mentions():
-                if self.db.visited(mention):
+                if db.visited(mention):
                     continue
-                self.db.visit(mention)
+                db.visit(mention)
                 subname = mention.subreddit.display_name
                 logging.debug('(Mention) Replying to {author} in {sub}'.format(
                     author=mention.author.name,
