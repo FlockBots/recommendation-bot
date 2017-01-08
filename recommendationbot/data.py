@@ -23,8 +23,9 @@ def load_list(data_dir, filename):
     path = os.path.join(data_dir, filename)
     keywords = []
     with open(path, 'r') as keywordFile:
-        keywords = keywordFile.read().split()
-    return keywords
+        keywords = keywordFile.readlines()
+    keywords = map(str.strip, keywords)
+    return list(keywords)
 
 def contains(text, words, name):
     text = text.lower()
