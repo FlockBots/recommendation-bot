@@ -59,16 +59,7 @@ def run():
     bot = RecommendationBot(reddit, config)
     print('Scanning subreddits...')
     while True:
-        try:
-            bot.monitor_reddit()
-        except ConnectionResetError:
-            logging.error("Connection Failure. Waiting 5 minutes before retrying.")                  
-            time.sleep(300)
-        except praw.exceptions.APIException:
-            logging.exception('PRAW Exception')
-        except Exception as e:
-            logging.exception('Unexpected error')
-            raise e
+        bot.monitor_reddit()
 
 def selftest():
     reddit, config = authorize.connect('debug')
@@ -120,43 +111,63 @@ class RecommendationBot:
         multireddit = '+'.join(self.subreddits)
         subreddit = self.reddit.subreddit(multireddit)
         
-        for submission in subreddit.stream.submissions():
-            if db.visited(submission): 
-                continue
-            db.visit(submission)
+        while True:
+            try:
+                for submission in subreddit.stream.submissions():
+                    if db.visited(submission): 
+                        continue
+                    db.visit(submission)
+                    logging.debug('Checking submission: {}'.format(submission.title))
+                    title = submission.title.lower()
+                    text  = submission.selftext.lower()
+                    all_text = '{} {}'.format(title, text)
+                    
+                    blacklisted = data.contains(all_text, blacklist, 'blacklist') 
+                    contains_keyword = False
+                    if not blacklisted:
+                        contains_keyword = data.contains(all_text, keywords, 'keywords') 
 
-            title = submission.title.lower()
-            text  = submission.selftext.lower()
-            all_text = '{} {}'.format(title, text)
-            
-            blacklisted = data.contains(all_text, blacklist, 'blacklist') 
-            contains_keyword = False
-            if not blacklisted:
-                contains_keyword = data.contains(all_text, keywords, 'keywords') 
-
-            if contains_keyword:
-                subname = submission.subreddit.display_name
-                logging.debug('(Submission) Replying to {author} in {sub}'.format(
-                    author=submission.author.name,
-                    sub=subname
-                ))
-                self.reply(subname, submission)
+                    if contains_keyword:
+                        subname = submission.subreddit.display_name
+                        logging.debug('(Submission) Replying to {author} in {sub}'.format(
+                            author=submission.author.name,
+                            sub=subname
+                        ))
+                        self.reply(subname, submission)
+            except (ConnectionResetError, praw.exceptions.RequestException):
+                logging.error("Connection Failure. Waiting 5 minutes before retrying.")                  
+                time.sleep(300)
+            except praw.exceptions.APIException:
+                logging.exception('PRAW Exception')
+            except Exception as e:
+                logging.exception('Unexpected error')
+                raise e
 
     def check_mentions(self):
         logging.debug('Checking mentions...')
         db = VisitedDatabase(self.config)
         while True:
-            for mention in self.reddit.inbox.mentions():
-                if db.visited(mention):
-                    continue
-                db.visit(mention)
-                subname = mention.subreddit.display_name
-                logging.debug('(Mention) Replying to {author} in {sub}'.format(
-                    author=mention.author.name,
-                    sub=subname
-                ))
-                self.reply(subname, mention)
-            time.sleep(60)
+            try:
+                for mention in self.reddit.inbox.mentions():
+                    if db.visited(mention):
+                        continue
+                    db.visit(mention)
+                    subname = mention.subreddit.display_name
+                    logging.debug('(Mention) Replying to {author} in {sub}'.format(
+                        author=mention.author.name,
+                        sub=subname
+                    ))
+                    self.reply(subname, mention)
+                time.sleep(60)
+            except ConnectionResetError:
+                logging.error("Connection Failure. Waiting 5 minutes before retrying.")                  
+                time.sleep(300)
+            except praw.exceptions.APIException:
+                logging.exception('PRAW Exception')
+            except Exception as e:
+                logging.exception('Unexpected error')
+                raise e
+                
 
     def reply(self, subname, obj):
         try:
