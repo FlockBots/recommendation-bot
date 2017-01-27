@@ -8,7 +8,7 @@ I've responded to your post to point you to some recommendation resources and he
 * [Recommendations for Beginners](https://docs.google.com/document/d/1PX70tHEc5v-Te8FiCLmRfmHel6Er5YZP_TnYKAdTAVo/edit)
 * [Next Level Malt Recommendations](https://docs.google.com/document/d/1ZPGmllteXF99KcQgjcNwgdY7_DCEQ8Cdil1IJklKoUE/edit#heading=h.i23il3ual5dx)
 * [Whisky Review Archive](https://docs.google.com/spreadsheets/d/1X1HTxkI6SqsdpNSkSSivMzpxNT-oeTbjFFDdEkXD30o/edit#gid=695409533&fvid=484110565)
-* [Malt Map](http://scotchgit.bitbucket.org/)
+* [Malt Map](https://scotchgit.bitbucket.io/)
 
 The malt map can be an especially valuable reference for exploring different flavor zones or for identifying scotches similar to a particular bottle you have in mind.
 
