@@ -1,9 +1,13 @@
 import praw
+import prawcore
+
 import sqlite3
 import os
 import logging
 import time
 import threading
+import requests
+
 from recommendationbot.config import authorize
 from recommendationbot.database import VisitedDatabase
 from recommendationbot import data
@@ -134,11 +138,9 @@ class RecommendationBot:
                             sub=subname
                         ))
                         self.reply(subname, submission)
-            except (ConnectionResetError, praw.exceptions.RequestException):
+            except requests.exceptions.HTTPError:
                 logging.error("Connection Failure. Waiting 5 minutes before retrying.")                  
                 time.sleep(300)
-            except praw.exceptions.APIException:
-                logging.exception('PRAW Exception')
             except Exception as e:
                 logging.exception('Unexpected error')
                 raise e
@@ -149,21 +151,26 @@ class RecommendationBot:
         while True:
             try:
                 for mention in self.reddit.inbox.mentions():
-                    if db.visited(mention):
+                    if 'submission' not in dir(mention):
+                        print(dir(mention))
+                        input()
+                    if not hasattr(mention, 'submission'):
+                        print(dir(mention))
+                        input()
+                    submission = mention.submission
+                    if db.visited(submission) or db.visited(mention):
                         continue
-                    db.visit(mention)
-                    subname = mention.subreddit.display_name
+                    db.visit(submission)
+                    subname = submission.subreddit.display_name
                     logging.debug('(Mention) Replying to {author} in {sub}'.format(
                         author=mention.author.name,
                         sub=subname
                     ))
                     self.reply(subname, mention)
                 time.sleep(60)
-            except ConnectionResetError:
+            except requests.exceptions.HTTPError:
                 logging.error("Connection Failure. Waiting 5 minutes before retrying.")                  
                 time.sleep(300)
-            except praw.exceptions.APIException:
-                logging.exception('PRAW Exception')
             except Exception as e:
                 logging.exception('Unexpected error')
                 raise e
