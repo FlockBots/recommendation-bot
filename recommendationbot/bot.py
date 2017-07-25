@@ -135,10 +135,8 @@ class RecommendationBot:
                         ))
                         self.reply(subname, submission)
             except (ConnectionResetError, praw.exceptions.RequestException):
-                logging.error("Connection Failure. Waiting 5 minutes before retrying.")                  
+                logging.error("Connection Failure. Waiting 5 minutes before retrying.")
                 time.sleep(300)
-            except praw.exceptions.APIException:
-                logging.exception('PRAW Exception')
             except Exception as e:
                 logging.exception('Unexpected error')
                 raise e
@@ -149,21 +147,20 @@ class RecommendationBot:
         while True:
             try:
                 for mention in self.reddit.inbox.mentions():
-                    if db.visited(mention):
+                    submission = mention.submission
+                    if db.visited(mention) or db.visited(submission):
                         continue
-                    db.visit(mention)
-                    subname = mention.subreddit.display_name
+                    db.visit(submission)
+                    subname = submission.subreddit.display_name
                     logging.debug('(Mention) Replying to {author} in {sub}'.format(
                         author=mention.author.name,
                         sub=subname
                     ))
                     self.reply(subname, mention)
                 time.sleep(60)
-            except ConnectionResetError:
-                logging.error("Connection Failure. Waiting 5 minutes before retrying.")                  
+            except (ConnectionResetError, praw.exceptions.RequestException):
+                logging.error("Connection Failure. Waiting 5 minutes before retrying.")
                 time.sleep(300)
-            except praw.exceptions.APIException:
-                logging.exception('PRAW Exception')
             except Exception as e:
                 logging.exception('Unexpected error')
                 raise e

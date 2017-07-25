@@ -20,5 +20,6 @@ pip-selfcheck.json
 config.ini
 debug.ini
 production.ini
+testing.ini
 *.log
 
