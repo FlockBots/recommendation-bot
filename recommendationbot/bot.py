@@ -135,7 +135,7 @@ class RecommendationBot:
                             sub=subname
                         ))
                         self.reply(subname, submission)
-                    db.visit(submission)
+                        db.visit(submission)
             except (ConnectionResetError, RequestException):
                 logging.error("Connection Failure. Waiting 5 minutes before retrying.")
                 time.sleep(300)
