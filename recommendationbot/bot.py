@@ -1,4 +1,6 @@
 import praw
+from prawcore.exceptions import RequestException
+
 import sqlite3
 import os
 import logging
@@ -116,7 +118,6 @@ class RecommendationBot:
                 for submission in subreddit.stream.submissions():
                     if db.visited(submission): 
                         continue
-                    db.visit(submission)
                     logging.debug('Checking submission: {}'.format(submission.title))
                     title = submission.title.lower()
                     text  = submission.selftext.lower()
@@ -129,12 +130,13 @@ class RecommendationBot:
 
                     if contains_keyword:
                         subname = submission.subreddit.display_name
-                        logging.debug('(Submission) Replying to {author} in {sub}'.format(
+                        logging.info('(Submission) Replying to {author} in {sub}'.format(
                             author=submission.author.name,
                             sub=subname
                         ))
                         self.reply(subname, submission)
-            except (ConnectionResetError, praw.exceptions.RequestException):
+                    db.visit(submission)
+            except (ConnectionResetError, RequestException):
                 logging.error("Connection Failure. Waiting 5 minutes before retrying.")
                 time.sleep(300)
             except Exception as e:
@@ -150,15 +152,15 @@ class RecommendationBot:
                     submission = mention.submission
                     if db.visited(mention) or db.visited(submission):
                         continue
-                    db.visit(submission)
                     subname = submission.subreddit.display_name
-                    logging.debug('(Mention) Replying to {author} in {sub}'.format(
+                    logging.info('(Mention) Replying to {author} in {sub}'.format(
                         author=mention.author.name,
                         sub=subname
                     ))
                     self.reply(subname, mention)
+                    db.visit(submission)
                 time.sleep(60)
-            except (ConnectionResetError, praw.exceptions.RequestException):
+            except (ConnectionResetError, RequestException):
                 logging.error("Connection Failure. Waiting 5 minutes before retrying.")
                 time.sleep(300)
             except Exception as e:
