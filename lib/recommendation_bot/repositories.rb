@@ -3,5 +3,7 @@ module RecommendationBot
   end
 end
 
-%w(submission_sqlite)
+%w(
+  sqlite_submission_repository
+)
   .each { |file| require_relative File.join('repositories', file) }

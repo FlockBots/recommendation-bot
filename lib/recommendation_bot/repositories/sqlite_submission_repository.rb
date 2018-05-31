@@ -1,7 +1,7 @@
 require 'sqlite3'
 
 module RecommendationBot::Repositories
-  class SubmissionSqliteRepository
+  class SqliteSubmissionRepository
     def initialize(database)
       @db = SQLite3::Database.new database
       create_table_if_not_exists

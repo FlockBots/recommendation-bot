@@ -1,11 +1,11 @@
 include RecommendationBot::Repositories
 
-describe SubmissionSqliteRepository do
+describe SqliteSubmissionRepository do
   let(:db) { ':memory:' }
   let(:id) { 'lovely_liskov' }
 
   subject do
-    SubmissionSqliteRepository.new(db)
+    SqliteSubmissionRepository.new(db)
   end
 
   it('throw when storing the same ID twice') do
