@@ -1,19 +1,37 @@
 module RecommendationBot
   class RedditApi
-    def initialize(redd_client)
+    def initialize(client)
       @client = client
     end
 
+    def username
+      @client.me.name
+    end
+
     def submissions(subreddit, before: nil)
-      options = {}
-      options = options.merge(before: before) unless before.nil?
-      @client.subreddit(subreddit).submissions()
+      options = { before: before }
+      submissions = @client.subreddit(subreddit).new(options)
+      if before.nil?
+        return submissions
+      else
+        # TODO: Fix this upstream
+        thing = @client.from_ids(before)
+        date = thing.first.created_at
+        return Enumerator.new do |results|
+          submissions.each do |submission|
+            if submission.created_at < date
+              break
+            end
+            results << submission
+          end
+        end
+      end
     end
 
     def inbox(before: nil)
       options = { category: 'unread', mark: false }
       options = options.merge(before: before) unless before.nil?
-      @client.messages(options)
+      @client.my_messages(options)
     end
   end
 end
