@@ -11,7 +11,7 @@ module RecommendationBot::Repositories
       query = 'SELECT id, replied_to FROM lastseen WHERE subreddit = ? ORDER BY created_at DESC LIMIT 1'
       records = @db.execute(query, [subreddit])
       if records.empty?
-        return default || raise(KeyError, "key not found: '#{subreddit}\"'")
+        return default || raise(KeyError, "key not found: '#{subreddit}'")
       end
       result = {
         id: records.first[0],

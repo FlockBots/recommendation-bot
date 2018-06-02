@@ -7,12 +7,16 @@ module RecommendationBot::Repositories
       create_table_if_not_exists
     end
 
-    def get(id)
+    def fetch(id, default = nil)
       query = 'SELECT id FROM submissions WHERE id = ?'
-      @db.execute(query, [id])
+      records = @db.execute(query, [id])
+      if records.empty?
+        return default || raise(KeyError, "key not found: '#{id}'")
+      end
+      return records.first
     end
 
-    def put(id)
+    def store(id)
       query = 'INSERT INTO submissions VALUES (?)'
       @db.execute(query, [id]);
     end

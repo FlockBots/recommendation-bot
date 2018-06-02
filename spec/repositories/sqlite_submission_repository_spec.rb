@@ -1,3 +1,5 @@
+require_relative './hash_like_behaviour'
+
 include RecommendationBot::Repositories
 
 describe SqliteSubmissionRepository do
@@ -8,14 +10,15 @@ describe SqliteSubmissionRepository do
     SqliteSubmissionRepository.new(db)
   end
 
-  it('throw when storing the same ID twice') do
-    subject.put id
-    expect { subject.put id } .to raise_error(SQLite3::ConstraintException)
+  it_should_behave_like 'a hash'
+
+  it('should raise when storing the same ID twice') do
+    subject.store id
+    expect { subject.store id } .to raise_error(SQLite3::ConstraintException)
   end
 
   it('stored ids can be retrieved') do
-    expect(subject.get id).to eq []
-    subject.put id
-    expect(subject.get id).to eq [[id]]
+    subject.store id
+    expect(subject.fetch id).to eq [id]
   end
 end
