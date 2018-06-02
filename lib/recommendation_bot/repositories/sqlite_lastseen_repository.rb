@@ -8,16 +8,22 @@ module RecommendationBot::Repositories
     end
 
     def fetch(subreddit, default = nil)
-      query = 'SELECT id FROM lastseen WHERE subreddit = ? ORDER BY created_at DESC LIMIT 1'
-      result = @db.execute(query, [subreddit])
-      return default if result.empty?
-      result.first.first # single result, single value
+      query = 'SELECT id, replied_to FROM lastseen WHERE subreddit = ? ORDER BY created_at DESC LIMIT 1'
+      records = @db.execute(query, [subreddit])
+      if records.empty?
+        return default || raise(KeyError, "key not found: '#{subreddit}\"'")
+      end
+      result = {
+        id: records.first[0],
+        replied_to: records.first[1] == 1
+      }
     end
 
     def store(subreddit, submission)
-      query = 'INSERT INTO lastseen VALUES (?, ?, ?)'
+      query = 'INSERT INTO lastseen VALUES (?, ?, ?, ?)'
       date_string = submission.created_at.strftime('%Y%m%d%H%M')
-      @db.execute(query, [submission.id, subreddit.downcase, date_string]);
+      replied = submission.replied_to? ? 1 : 0
+      @db.execute(query, [submission.id, subreddit.downcase, date_string, replied]);
     end
 
     private
@@ -27,7 +33,8 @@ module RecommendationBot::Repositories
         CREATE TABLE IF NOT EXISTS lastseen (
           id TEXT UNIQUE,
           subreddit TEXT,
-          created_at INTEGER
+          created_at INTEGER,
+          replied_to INTEGER
         )
       SQL
       @db.execute(query)
