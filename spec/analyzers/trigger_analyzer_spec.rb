@@ -1,4 +1,4 @@
-include RecommendationBot
+include RecommendationBot::Analyzers
 
 describe TriggerAnalyzer do
   let(:whitelist) { ['lorem', 'ipsum', 'dolor', 'sit'] }

@@ -1,4 +1,4 @@
-module RecommendationBot
+module RecommendationBot::Analyzers
   # This class should only combine other analyzers
   class TriggerAnalyzer
     def initialize(list_analyzer, username_analyzer)

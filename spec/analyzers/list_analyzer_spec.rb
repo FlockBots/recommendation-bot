@@ -1,4 +1,4 @@
-include RecommendationBot
+include RecommendationBot::Analyzers
 
 describe ListAnalyzer do
   let(:whitelist) { ['lorem', 'ipsum', 'dolor', 'sit'] }

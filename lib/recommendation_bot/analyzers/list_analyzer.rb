@@ -1,4 +1,4 @@
-module RecommendationBot
+module RecommendationBot::Analyzers
   class ListAnalyzer
     def initialize(whitelist, blacklist)
       @whitelist = whitelist
