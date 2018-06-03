@@ -26,9 +26,12 @@ describe SqliteSubmissionRepository do
   describe('#fetch') do
     it('should retrieve the id and replied_to flag') do
       subject.store(submission)
+      date = submission.created_at
       result = {
         id: submission.id,
-        replied_to: submission.replied_to?
+        subreddit: submission.subreddit.display_name.downcase,
+        replied_to: submission.replied_to?,
+        created_at: DateTime.new(date.year, date.month, date.day, date.hour, date.min)
       }
       expect(subject.fetch(submission.id)).to eq result
     end

@@ -3,7 +3,7 @@ require 'redd'
 
 include RecommendationBot
 
-describe RedditApi do
+describe RedditApi, integration: true do
   let(:session) do
     Dotenv.load 'test.env'
     Redd.it(

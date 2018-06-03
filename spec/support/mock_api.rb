@@ -1,7 +1,11 @@
 MockSubreddit = Struct.new(:display_name)
-MockMessage = Struct.new(:subreddit, :body) do
+MockMessage = Struct.new(:body, :link) do
   def mark_as_read
     nil
+  end
+
+  def subreddit
+    link.subreddit
   end
 end
 MockSubmission = Struct.new(:id, :subreddit, :selftext, :created_at, :replied) do
@@ -16,8 +20,11 @@ end
 
 
 class MockApi
-  def initialize(output)
+  def initialize(output, subreddit, submissions, messages)
     @output = output
+    @subreddit = subreddit
+    @submissions = submissions
+    @messages = messages
   end
   def username
     'test_bot'
@@ -29,19 +36,10 @@ class MockApi
   end
 
   def submissions(subreddit, before: nil)
-    subreddit = MockSubreddit.new('Scotch')
-    [
-      MockSubmission.new('1', subreddit, nil),
-      MockSubmission.new('2', subreddit, 'blacklisted keyword'),
-      MockSubmission.new('3', subreddit, 'whitelisted keyword')
-    ]
+    @submissions
   end
 
   def inbox(before: nil)
-    subreddit = MockSubreddit.new('Scotch')
-    [
-      MockMessage.new(subreddit, 'whitelisted keyword'),
-      MockMessage.new(subreddit, 'blacklisted keyword')
-    ]
+    @messages
   end
 end

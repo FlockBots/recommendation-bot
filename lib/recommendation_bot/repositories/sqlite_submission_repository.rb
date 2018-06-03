@@ -1,4 +1,5 @@
 require 'sqlite3'
+require 'date'
 
 module RecommendationBot::Repositories
   class SqliteSubmissionRepository
@@ -8,7 +9,7 @@ module RecommendationBot::Repositories
     end
 
     def fetch(id, default = nil)
-      query = 'SELECT id, replied_to FROM submissions WHERE id = ?'
+      query = 'SELECT * FROM submissions WHERE id = ?'
       records = @db.execute(query, [id])
       if records.empty?
         return default || raise(KeyError, "key not found: '#{id}'")
@@ -17,7 +18,7 @@ module RecommendationBot::Repositories
     end
     
     def last_seen(subreddit, default = nil)
-      query = 'SELECT id, replied_to FROM submissions WHERE subreddit = ? ORDER BY created_at DESC LIMIT 1'
+      query = 'SELECT * FROM submissions WHERE subreddit = ? ORDER BY created_at DESC LIMIT 1'
       records = @db.execute(query, [subreddit.downcase])
       if records.empty?
         return default || raise(KeyError, "subreddit not found: '#{subreddit}'")
@@ -38,7 +39,9 @@ module RecommendationBot::Repositories
     def convert(record)
       result = {
         id: record[0],
-        replied_to: record[1] == 1
+        subreddit: record[1],
+        created_at: DateTime.strptime(record[2].to_s, '%Y%m%d%H%M'),
+        replied_to: record[3] == 1
       }
     end
 

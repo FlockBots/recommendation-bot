@@ -2,10 +2,16 @@ module RecommendationBot
   class RedditApi
     def initialize(client)
       @client = client
+      @username = nil
     end
 
     def username
-      @client.me.name
+      return @username unless @username.nil?
+      @username = @client.me.name
+    end
+
+    def reply(post, message)
+      post.reply(message)
     end
 
     def submissions(subreddit, before: nil)
