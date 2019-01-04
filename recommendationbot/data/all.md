@@ -1,10 +1,15 @@
 Hi there, I’m a bot here to help you with your recommendation post. If you haven’t already, please review the collection of guides in the sidebar we’ve created to address the stream of recommendation posts we get here. Most notably:
 
-* [Intro to Whiskey](https://www.reddit.com/r/whiskey/comments/5kn4q6/rwhiskeys_intro_to_whiskey/)
-* [How to Evaluate and Review Whiskey](http://www.reddit.com/r/whiskey/comments/177fq5/how_to_evaluate_whiskey)
-* [Intro to Peated Whiskies](https://www.reddit.com/r/whiskey/comments/5crusj/an_intro_to_peated_whiskey/)
-* Gift Guides 
-* [Bourbon/Rye Gift Guide](https://www.reddit.com/r/whiskey/comments/4tseyj/bourbon_gift_guide/)
+* [Intro to Whiskey (Tips & Recommendations)](https://www.reddit.com/r/whiskey/comments/5kn4q6/rwhiskeys_intro_to_whiskey/)
+* [How to do a whiskey tasting](https://www.youtube.com/watch?v=Boj33DVSILQ)
+* [An Intro to Peated Whiskies](https://www.reddit.com/r/whiskey/comments/5crusj/an_intro_to_peated_whiskey/)
+* [Guide to Japanese Whisky](https://www.reddit.com/r/whiskey/comments/7vssnx/guide_to_japanese_whisky/)
+* [Guide to Inexpensive (But Tasty) Whiskies](https://www.reddit.com/r/whiskey/comments/9y7pse/guide_to_inexpensive_but_tasty_whiskies/)
+* [Valuing, dating & consuming vintage bottles](https://www.reddit.com/r/whiskey/comments/5w6d2e/new_rule_valuation_and_tell_me_more_bottle_posts/)
+
+Gift Guides
+
+* [Bourbon Gift Guide](https://www.reddit.com/r/whiskey/comments/4tseyj/bourbon_gift_guide/)
 * [Scotch/Japanese/Irish Whiskies Gift Guide](https://www.reddit.com/r/whiskey/comments/5eufjb/scotchjapaneseirish_whiskey_gift_recommendations/)
 
 &nbsp;

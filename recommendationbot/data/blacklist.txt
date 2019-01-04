@@ -1,40 +1,4 @@
-review
-travel
-travelling
-traveling
-visiting
-visit
-meta
-[meta]
-I recommend
-I'd recommend
-driving
-drive
-after a recommendation
-glassware
-this glass
-glencairn glass
-id recommend
-bookcase
-book case
-shelving
-best liquor store
-best store
-louisville
-bardstown
-tasting event
-BTAC
-Rating:
-Score:
 /100
-Recipe
-beginner question
-novice question
-Newcomer question
-Noob question
-N00b question
-Newbie question
-Newb question
 1980
 1981
 1982
@@ -54,20 +18,56 @@ Newb question
 1996
 1997
 1998
-coloring
-question about
-shelving
-liquor cabinet
-save a bottle
-son
-Daughter
-mint julep
-old fashioned
-manhattan
-Cocktail
-what to do with
-save a bottle
-europe
-canada
-south africa
+after a recommendation
 anyone tried
+bardstown
+beginner question
+best liquor store
+best store
+bookcase
+book case
+BTAC
+canada
+Cocktail
+coloring
+Daughter
+drive
+driving
+europe
+glassware
+glencairn glass
+id recommend
+I'd recommend
+I recommend
+liquor cabinet
+louisville
+manhattan
+meta
+[meta]
+mint julep
+N00b question
+Newbie question
+Newb question
+Newcomer question
+Noob question
+novice question
+old fashioned
+question about
+Rating:
+Recipe
+review
+save a bottle
+save a bottle
+Score:
+shelving
+shelving
+son
+south africa
+tasting event
+this glass
+travel
+traveling
+travelling
+visit
+visiting
+what to do with
