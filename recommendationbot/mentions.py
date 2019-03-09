@@ -47,8 +47,7 @@ def find_config(extension='.ini'):
             chosen = config + extension in configs
         return config
 
-def run():
-    config_name = find_config()
+def run(config_name):
     reddit, config = authorize.connect(config_name)
     set_logging(config)
     if reddit == None:
@@ -59,8 +58,7 @@ def run():
         config=config_name
     ))
     bot = RecommendationBot(reddit, config)
-    print('Scanning subreddits...')
-    bot.check_subreddits()
+    bot.check_mentions()
 
 def selftest():
     reddit, config = authorize.connect('debug')
